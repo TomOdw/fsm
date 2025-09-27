@@ -1,39 +1,51 @@
-#include "fsm.h"
-
+/**
+ * @file       fsm.c
+ * @brief      A Finite State Machine (FSM) in C
+ *
+ *             Statemachine definition near the graphical UML representation
+ *             (as near as it gets). Entry, do, and exit actions for each state.
+ *             Transition actions and optional guard conditions.
+ *             Nested Statemachines support.
+ *             Includes a working example in the test folder.
+ *
+ * @author     Tom Christ
+ * @copyright  Copyright (c) 2025 Tom Christ; MIT License
+ * @date       2025-09-27
+ *
+ * @version    0.1  Initial Version
+ */
+/******************************************************************************/
+/*** Include files                                                            */
+/******************************************************************************/
+#include "fsm.h"    /* Own header */
 #include <stddef.h> /* for NULL */
 
-static void perform_action(const fsm_action_t *const action)
-{
-  if (action != NULL)
-  {
-    if (action->func != NULL)
-    {
-      action->func(action->arg);
-    }
-  }
-}
+/******************************************************************************/
+/*** Local function prototypes                                                */
+/******************************************************************************/
 
-static fsm_state_cfg_t const *get_state_cfg(const fsm_t *const i_this, fsm_state_t state)
-{
-  if (i_this == NULL)
-  {
-    return NULL;
-  }
-  if (i_this->config == NULL)
-  {
-    return NULL;
-  }
+/**
+ * @brief Performing a fsm action
+ *
+ * Executes the actions function pointer with the argument
+ *
+ * @param action the fsm action to be performed, can be null
+ */
+static void perform_action(const fsm_action_t *const i_action);
 
-  for (uint32_t i = 0; i < i_this->config->statesCount; i++)
-  {
-    if (i_this->config->states[i].state == state)
-    {
-      return &i_this->config->states[i];
-    }
-  }
-  return NULL;
-}
+/**
+ * @brief Getting State Configuration from state
+ *
+ * @param i_this Current fsm instance
+ * @param i_state State to get the config struct from
+ *
+ * @return The State configuration or null if not defined in the fsm config
+ */
+static fsm_state_cfg_t const *get_state_cfg(const fsm_t *const i_this, fsm_state_t i_state);
 
+/******************************************************************************/
+/*** API function implementation                                              */
+/******************************************************************************/
 fsm_RC_t fsm_init(fsm_t *const io_this, const fsm_cfg_t *const i_config)
 {
   if (io_this == NULL || i_config == NULL)
@@ -224,4 +236,39 @@ fsm_RC_t fsm_process(fsm_t *const io_this, fsm_event_t i_event)
   /* Save the state change (if happened) */
   io_this->currentState = nextStateCfg->state;
   return FSM_RC_OK;
+}
+
+/******************************************************************************/
+/*** Local function implementation                                            */
+/******************************************************************************/
+static void perform_action(const fsm_action_t *const i_action)
+{
+  if (i_action != NULL)
+  {
+    if (i_action->func != NULL)
+    {
+      i_action->func(i_action->arg);
+    }
+  }
+}
+
+static fsm_state_cfg_t const *get_state_cfg(const fsm_t *const i_this, fsm_state_t i_state)
+{
+  if (i_this == NULL)
+  {
+    return NULL;
+  }
+  if (i_this->config == NULL)
+  {
+    return NULL;
+  }
+
+  for (uint32_t i = 0; i < i_this->config->statesCount; i++)
+  {
+    if (i_this->config->states[i].state == i_state)
+    {
+      return &i_this->config->states[i];
+    }
+  }
+  return NULL;
 }

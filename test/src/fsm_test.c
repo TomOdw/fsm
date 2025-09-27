@@ -1,18 +1,48 @@
-#include "fsm_test.h"
+/**
+ * @file       fsm_test.h
+ * @brief      Test and Example FSM
+ *
+ * @author     Tom Christ
+ * @copyright  Copyright (c) 2025 Tom Christ; MIT License
+ * @date       2025-09-27
+ *
+ * @version    0.1  Initial Version
+ */
 
-#include <stdio.h>
+/******************************************************************************/
+/*** Include files                                                            */
+/******************************************************************************/
+#include "fsm_test.h" /* own header*/
+
+#include <stdio.h> /* printf */
 
 /******************************************************************************/
 /* FUNCTION PREDECLARATION FOR FSM                                            */
 /******************************************************************************/
+
+/**
+ * @brief Log Function
+ *
+ * Prints a Message with printf to the commandline. Called from the statemachine
+ *
+ * @param i_massage is casted back to (const char*)
+ */
 static void myLog(fsm_arg_t i_message);
+
+/**
+ * @brief Reset Statemachine function
+ *
+ * Resets the passed statemachine instance
+ *
+ * @param i_fsam is casted back to (fsm_t *const)
+ */
 static void resetFsm(fsm_arg_t i_fsm);
 
 /******************************************************************************/
 /* PRIVATE STATIC VARIABLES                                                   */
 /******************************************************************************/
-static fsm_t fsmMain = {0};
-static fsm_t fsmSub = {0};
+static fsm_t fsmMain = {0}; /**< Instance of the Main Statemachine */
+static fsm_t fsmSub = {0};  /**< Instance of the Sub Statemachine */
 
 /******************************************************************************/
 /* STATEMACHINE CONFIGURATION                                                 */
@@ -158,7 +188,7 @@ int main(void)
         return -1;
     }
     printf("main: main fsm initialized\n");
-    
+
     res = fsm_init(&fsmSub, &fsmSubCfg);
     if (res != FSM_RC_OK)
     {
