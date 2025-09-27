@@ -1,3 +1,13 @@
+/*!
+ * @file       fsm.h
+ * @brief      A Finite State Machine (FSM) in C
+ *            
+ * @author     Tom Christ
+ * @date       2025-09-27
+ * @copyright  Copyright (c) 2025 Tom Christ; MIT License
+ * @version    0.1  Initial Version
+ */
+
 #ifndef FSM_H_
 #define FSM_H_
 
