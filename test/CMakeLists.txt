@@ -9,7 +9,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 file(GLOB SOURCES 
     ./../fsm.c
-    src/example.c
+    src/fsm_test.c
     )
 
 add_executable(fsm_test ${SOURCES})
